@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Accueil' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Accueil</h1>
+        <p>
+            <a href="{{ path('sign_out') }}">Déconnexion</a>
+        </p>
+    </div>
+{% endblock %}
