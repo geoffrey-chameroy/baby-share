@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Accueil' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Accueil</h1>
+        <p>
+            <a href="{{ path('sign_out') }}">Déconnexion</a>
+        </p>
+        <div class="row mb-4">
+            {% for photo in photos %}
+                <div class="col-md-3">
+                    <a href="{{ path('photo_view', {'id': photo.id}) }}" data-toggle="lightbox" data-title="{{ photo.label }}" data-footer="{{ photo.description }}" data-gallery="gallery">
+                        <img src="{{ path('photo_view', {'id': photo.id}) }}" class="img-fluid">
+                    </a>
+                </div>
+                {% if loop.index % 4 == 0 and not loop.last %}
+                    </div>
+                    <div class="row mb-4">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

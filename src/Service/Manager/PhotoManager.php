@@ -21,4 +21,12 @@ class PhotoManager extends EntityManager
     {
         parent::__construct($em, Photo::class);
     }
+
+    /**
+     * @return Photo[]
+     */
+    public function getPublished()
+    {
+        return $this->getRepository()->getPublished();
+    }
 }
