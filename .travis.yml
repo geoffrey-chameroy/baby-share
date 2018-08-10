@@ -1,22 +1,11 @@
-language: php
-
-php:
-  - '7.2'
-
-services:
-  - mysql
-
-cache:
-  directories:
-    - vendor
-
-install:
-  - composer install --no-progress --no-interaction --prefer-dist --no-suggest
+os: linux
+language: ruby
 
 before_script:
-  - php bin/console doctrine:database:create
-  - php bin/console doctrine:schema:update --force
-  - php bin/console doctrine:fixtures:load -n
+  - docker-compose up -d
+  - docker-compose exec app composer install --no-progress --no-interaction --prefer-dist --no-suggest
 
 script:
-  - bin/codecept run
+  - docker-compose exec app php bin/console doctrine:schema:update -f
+  - docker-compose exec app php bin/console doctrine:fixtures:load -n
+  - docker-compose exec app vendor/bin/codecept run

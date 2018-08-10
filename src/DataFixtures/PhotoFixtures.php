@@ -22,19 +22,19 @@ class PhotoFixtures extends FixtureHelper implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        $directory = $this->kernel->getRootDir() . '/../uploads';
+        $directory = $this->kernel->getRootDir() . '/../uploads/';
         /** @var User $uploadedBy */
         $uploadedBy = $this->getReference('user');
         for ($i = 1; $i <= self::NB_PHOTO; $i++) {
             $photo = (new Photo())
                 ->setLabel($this->faker->sentence)
                 ->setDescription($this->faker->text)
-                ->setFileName($this->faker->image($directory, 640, 480, 'nature', false))
+                ->setFileName($this->getImage($directory, 640, 480, false, $i))
                 ->setTakenAt(new \DateTime())
                 ->setPublishedAt(new \DateTime())
                 ->setUploadedBy($uploadedBy);
 
-            $this->setReference('photo-', $photo);
+            $this->setReference('photo-' . $i, $photo);
             $manager->persist($photo);
         }
         $manager->flush();
