@@ -18,7 +18,7 @@
             forceChunking: true,
             chunkSize: 2000000, // 2Mo
             accept: function(file, done) {
-                if (file.type != "image/jpeg") {
+                if (file.type !== "image/jpeg") {
                     done("Seules les images au format jpeg sont acceptées.");
                 }
                 else {

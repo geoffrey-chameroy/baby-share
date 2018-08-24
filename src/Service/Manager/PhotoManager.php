@@ -3,6 +3,7 @@
 namespace App\Service\Manager;
 
 use App\Entity\Photo;
+use App\Entity\PhotoPublication;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -17,31 +18,17 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class PhotoManager extends AbstractEntityManager
 {
-    /** @var PhotoPublicationManager */
-    private $photoPublicationManager;
-
-    public function __construct(EntityManagerInterface $em, PhotoPublicationManager $photoPublicationManager)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->photoPublicationManager = $photoPublicationManager;
-
-        parent::__construct($em, Photo::class);
+         parent::__construct($em, Photo::class);
     }
 
     /**
+     * @param PhotoPublication $publication
      * @return Photo[]
      */
-    public function getPublished()
+    public function getByPublication(PhotoPublication $publication)
     {
-        return $this->getRepository()->getPublished();
-    }
-
-    /**
-     * @return Photo[]
-     */
-    public function getLastPublished()
-    {
-        $publication = $this->photoPublicationManager->getLast();
-
         return $this->getRepository()->findBy(['publication' => $publication]);
     }
 }

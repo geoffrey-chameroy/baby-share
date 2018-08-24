@@ -26,11 +26,13 @@ class PhotoFixtures extends FixtureHelper implements DependentFixtureInterface
         $directory = $this->kernel->getRootDir() . '/../uploads/';
         /** @var User $uploadedBy */
         $uploadedBy = $this->getReference('user');
+        $nbPerPublication = self::NB_PHOTO / (self::NB_PHOTO_PUBLICATION + 1);
         for ($i = 1; $i <= self::NB_PHOTO; $i++) {
             $publication = null;
-            if ($i > 3) {
+            if ($i > $nbPerPublication) {
+                $publicationId = floor(($i - 1) / $nbPerPublication);
                 /** @var PhotoPublication $publication */
-                $publication = $this->getReference('photo-publication-' . $this->faker->numberBetween(1, self::NB_PHOTO_PUBLICATION));
+                $publication = $this->getReference('photo-publication-' . $publicationId);
             }
             $photo = (new Photo())
                 ->setLabel($this->faker->sentence)

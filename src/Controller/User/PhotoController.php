@@ -3,6 +3,7 @@
 namespace App\Controller\User;
 
 use App\Service\Manager\PhotoManager;
+use App\Service\Manager\PhotoPublicationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +32,21 @@ class PhotoController Extends Controller
         $file = $directory . '/' . $photo->getFileName();
 
         return new BinaryFileResponse($file);
+    }
+
+    /**
+     * @Route(
+     *     "/", name="photo_list",
+     *     methods={"GET"}
+     * )
+     * @param PhotoPublicationManager $publicationManager
+     * @return BinaryFileResponse
+     */
+    public function list(PhotoPublicationManager $publicationManager): Response
+    {
+        return $this->render('user/photo/list.html.twig', [
+            'publications' => $publicationManager->getList()
+        ]);
     }
 
     /**

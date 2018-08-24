@@ -14,7 +14,6 @@ class loginCest
         $I->submitForm('form', ['_username' => 'user@test.fr', '_password' => 'user']);
         $I->seeCurrentUrlEquals('/');
         $I->seeResponseCodeIs(HttpCode::OK);
-        $I->see('Accueil', 'h1');
     }
 
     public function tryLoginFail(FunctionalTester $I)
@@ -32,7 +31,6 @@ class loginCest
         $I->amOnPage('/');
         $I->seeCurrentUrlEquals('/');
         $I->seeResponseCodeIs(HttpCode::OK);
-        $I->see('Accueil', 'h1');
     }
 
     public function tryReLogin(FunctionalTester $I)

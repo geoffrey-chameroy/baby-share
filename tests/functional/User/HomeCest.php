@@ -10,7 +10,7 @@ class HomeCest
         $I->amLoggedAsUser();
         $I->amOnPage('/');
         $I->seeResponseCodeIs(HttpCode::OK);
-        $I->see('Accueil', 'h1');
-        $I->seeNumberOfElements('.img-fluid', '12');
+        $I->see('Les dernières photos partagées', 'h2');
+        $I->seeNumberOfElements('.img-fluid', '4');
     }
 }

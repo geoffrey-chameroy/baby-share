@@ -1,0 +1,12 @@
+<div class="mt-3">
+    <h3>Photos partagées le {{ publication.publishedAt|date('d.m.Y') }}</h3>
+    <div class="row">
+        {% for photo in photos %}
+            <div class="col-md-3 mt-4">
+                <a href="{{ path('photo_view', {'id': photo.id}) }}" data-toggle="lightbox" data-title="{{ photo.label }}" data-footer="{{ photo.description }}" data-gallery="publication-{{ photo.publication.id }}">
+                    <img src="{{ path('photo_view', {'id': photo.id}) }}" class="img-fluid">
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>

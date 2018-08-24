@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Photos' %}
+
+{% block content %}
+    <div class="container">
+        <section class="pt-4 pb-4">
+            {% for publication in publications %}
+                {{ render(controller('App\\Controller\\User\\PhotoPublicationController::view', {'id': publication.id})) }}
+            {% endfor %}
+        </section>
+    </div>
+{% endblock %}
