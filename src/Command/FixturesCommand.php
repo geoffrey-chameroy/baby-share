@@ -53,6 +53,10 @@ class FixturesCommand extends Command
                 continue;
             }
 
+            if (is_dir($directory . '/' . $file)) {
+                continue;
+            }
+
             unlink($directory . '/' . $file);
         }
     }

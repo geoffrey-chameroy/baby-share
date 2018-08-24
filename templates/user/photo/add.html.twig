@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="pt-4 pb-4">
+        <div class="container">
+            <h2>Envoyez-nous vos photos !</h2>
+            <p>Cliquez ou déposez vos photos directement dans le cadre ci-dessous.</p>
+            <form action="{{ oneup_uploader_endpoint('gallery') }}" class="dropzone" id="add_photo"></form>
+            <p><em>Les photos seront vérifiées avant d'être partagées.</em></p>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        Dropzone.options.addPhoto = {
+            chunking: true,
+            forceChunking: true,
+            chunkSize: 2000000, // 2Mo
+            accept: function(file, done) {
+                if (file.type != "image/jpeg") {
+                    done("Seules les images au format jpeg sont acceptées.");
+                }
+                else {
+                    done();
+                }
+            }
+        };
+    </script>
+{% endblock %}

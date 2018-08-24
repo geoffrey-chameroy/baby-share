@@ -9,6 +9,7 @@ use Faker\Generator;
 abstract class FixtureHelper extends Fixture
 {
     const NB_PHOTO = 12;
+    const NB_PHOTO_PUBLICATION = 2;
 
     private $urlImages = 'https://picsum.photos';
 

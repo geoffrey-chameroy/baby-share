@@ -19,12 +19,15 @@ class PhotoRepository extends ServiceEntityRepository
         parent::__construct($registry, Photo::class);
     }
 
+    /**
+     * @return Photo[]
+     */
     public function getPublished()
     {
         return $this->createQueryBuilder('p')
-            ->where('p.published_at <= :now')
-            ->setParameter('now', new \DateTime())
-            ->orderBy('p.published_at', 'desc')
+            ->where('p.publication is not null')
+            ->addOrderBy('p.publication', 'desc')
+            ->addOrderBy('p.id', 'asc')
             ->getQuery()
             ->getResult();
     }

@@ -5,6 +5,7 @@ namespace App\Controller\User;
 use App\Service\Manager\PhotoManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,5 +31,17 @@ class PhotoController Extends Controller
         $file = $directory . '/' . $photo->getFileName();
 
         return new BinaryFileResponse($file);
+    }
+
+    /**
+     * @Route(
+     *     "/add", name="photo_add",
+     *     methods={"GET"}
+     * )
+     * @return Response
+     */
+    public function add(): Response
+    {
+        return $this->render('user/photo/add.html.twig');
     }
 }

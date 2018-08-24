@@ -17,7 +17,7 @@ class DefaultController extends Controller
     public function home(PhotoManager $photoManager): Response
     {
         return $this->render('user/default/home.html.twig', [
-            'photos' => $photoManager->getPublished()
+            'photos' => $photoManager->getLastPublished()
         ]);
     }
 }

@@ -37,15 +37,15 @@ class Photo
     private $taken_at;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $published_at;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="photos")
      * @ORM\JoinColumn(nullable=false)
      */
     private $uploaded_by;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PhotoPublication", inversedBy="photos")
+     */
+    private $publication;
 
     public function getId(): int
     {
@@ -100,18 +100,6 @@ class Photo
         return $this;
     }
 
-    public function getPublishedAt(): ?\DateTimeInterface
-    {
-        return $this->published_at;
-    }
-
-    public function setPublishedAt(?\DateTimeInterface $published_at): self
-    {
-        $this->published_at = $published_at;
-
-        return $this;
-    }
-
     public function getUploadedBy(): ?User
     {
         return $this->uploaded_by;
@@ -120,6 +108,18 @@ class Photo
     public function setUploadedBy(?User $uploaded_by): self
     {
         $this->uploaded_by = $uploaded_by;
+
+        return $this;
+    }
+
+    public function getPublication(): ?PhotoPublication
+    {
+        return $this->publication;
+    }
+
+    public function setPublication(?PhotoPublication $publication): self
+    {
+        $this->publication = $publication;
 
         return $this;
     }

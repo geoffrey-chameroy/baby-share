@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class EntityManager
+abstract class AbstractEntityManager
 {
     /** @var EntityManagerInterface */
     private $_em;

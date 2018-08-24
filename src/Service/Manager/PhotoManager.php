@@ -15,10 +15,15 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method void            remove(Photo $photo)
  * @method void            checkEntity(?Photo $photo)
  */
-class PhotoManager extends EntityManager
+class PhotoManager extends AbstractEntityManager
 {
-    public function __construct(EntityManagerInterface $em)
+    /** @var PhotoPublicationManager */
+    private $photoPublicationManager;
+
+    public function __construct(EntityManagerInterface $em, PhotoPublicationManager $photoPublicationManager)
     {
+        $this->photoPublicationManager = $photoPublicationManager;
+
         parent::__construct($em, Photo::class);
     }
 
@@ -28,5 +33,15 @@ class PhotoManager extends EntityManager
     public function getPublished()
     {
         return $this->getRepository()->getPublished();
+    }
+
+    /**
+     * @return Photo[]
+     */
+    public function getLastPublished()
+    {
+        $publication = $this->photoPublicationManager->getLast();
+
+        return $this->getRepository()->findBy(['publication' => $publication]);
     }
 }

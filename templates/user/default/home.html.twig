@@ -4,22 +4,17 @@
 
 {% block content %}
     <div class="container">
-        <h1>Accueil</h1>
-        <p>
-            <a href="{{ path('sign_out') }}">Déconnexion</a>
-        </p>
-        <div class="row mb-4">
-            {% for photo in photos %}
-                <div class="col-md-3">
-                    <a href="{{ path('photo_view', {'id': photo.id}) }}" data-toggle="lightbox" data-title="{{ photo.label }}" data-footer="{{ photo.description }}" data-gallery="gallery">
-                        <img src="{{ path('photo_view', {'id': photo.id}) }}" class="img-fluid">
-                    </a>
-                </div>
-                {% if loop.index % 4 == 0 and not loop.last %}
+        <section class="pt-4 pb-4">
+            <h2>Les dernières photos partagées</h2>
+            <div class="row">
+                {% for photo in photos %}
+                    <div class="col-md-3 mt-4">
+                        <a href="{{ path('photo_view', {'id': photo.id}) }}" data-toggle="lightbox" data-title="{{ photo.label }}" data-footer="{{ photo.description }}" data-gallery="publication-{{ photo.publication.id }}">
+                            <img src="{{ path('photo_view', {'id': photo.id}) }}" class="img-fluid">
+                        </a>
                     </div>
-                    <div class="row mb-4">
-                {% endif %}
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
+        </section>
     </div>
 {% endblock %}
