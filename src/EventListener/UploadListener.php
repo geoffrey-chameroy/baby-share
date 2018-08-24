@@ -13,17 +13,23 @@ class UploadListener
     /** @var PhotoManager */
     private $photoManager;
 
-    /** @var User */
+    /** @var User|null */
     private $user;
 
     public function __construct(PhotoManager $photoManager, TokenStorageInterface $tokenStorage)
     {
         $this->photoManager = $photoManager;
-        $this->user = $tokenStorage->getToken()->getUser();
+        $this->user = $tokenStorage->getToken() ? $tokenStorage->getToken()->getUser() : null;
     }
 
     public function onUpload(PostPersistEvent $event)
     {
+        $response = $event->getResponse();
+        $response['success'] = false;
+        if (!$this->user) {
+            return $response;
+        }
+
         /** @var File $file */
         $file = $event->getFile();
         $photo = $this->photoManager->getNew()
@@ -31,7 +37,6 @@ class UploadListener
             ->setUploadedBy($this->user);
         $this->photoManager->save($photo);
 
-        $response = $event->getResponse();
         $response['success'] = true;
 
         return $response;
