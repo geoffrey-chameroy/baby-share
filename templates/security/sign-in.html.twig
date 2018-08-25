@@ -3,10 +3,9 @@
 {% block empty_content %}
     <section>
         <div class="container">
-            <div class="row mt-5">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <p>Hey, connecte toi pour voir mes photos !</p>
+            <div class="row mt-5 d-flex justify-content-center">
+                <div class="col-md-5 text-center">
+                    <h4 class="mb-4">Connecte toi pour voir les photos !</h4>
                     <form action="{{ path('sign_in') }}" method="post">
                         <div class="form-group">
                             <input type="email" class="form-control" id="username" placeholder="Email" name="_username" value="{{ last_username }}" required>
@@ -19,7 +18,18 @@
                         {% if error %}
                             <p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
                         {% endif %}
-                        <button type="submit" class="btn btn-primary">Connexion</button>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <p class="text-right">
+                                    <a href="{{ path('register') }}">Je n'ai pas de compte.</a>
+                                </p>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

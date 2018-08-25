@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block empty_content %}
+    <section>
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-md-4 offset-md-4 text-center">
+                    <h4>Félicitations !</h4>
+                    <p class="mt-4">Nous te contacterons très bientôt pour valider ton compte afin de bien vérifier qui tu es.</p>
+                    <p class=" mt-4">
+                        <a class="btn btn-primary" href="{{ path('sign_in') }}">Retour à la page de connexion</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

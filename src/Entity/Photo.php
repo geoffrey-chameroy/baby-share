@@ -29,18 +29,18 @@ class Photo
     /**
      * @ORM\Column(type="string", length=40, unique=true)
      */
-    private $file_name;
+    private $fileName;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $taken_at;
+    private $takenAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="photos")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $uploaded_by;
+    private $uploadedBy;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PhotoPublication", inversedBy="photos")
@@ -78,36 +78,36 @@ class Photo
 
     public function getFileName(): ?string
     {
-        return $this->file_name;
+        return $this->fileName;
     }
 
-    public function setFileName(string $file_name): self
+    public function setFileName(string $fileName): self
     {
-        $this->file_name = $file_name;
+        $this->fileName = $fileName;
 
         return $this;
     }
 
     public function getTakenAt(): ?\DateTimeInterface
     {
-        return $this->taken_at;
+        return $this->takenAt;
     }
 
-    public function setTakenAt(?\DateTimeInterface $taken_at): self
+    public function setTakenAt(?\DateTimeInterface $takenAt): self
     {
-        $this->taken_at = $taken_at;
+        $this->takenAt = $takenAt;
 
         return $this;
     }
 
     public function getUploadedBy(): ?User
     {
-        return $this->uploaded_by;
+        return $this->uploadedBy;
     }
 
-    public function setUploadedBy(?User $uploaded_by): self
+    public function setUploadedBy(?User $uploadedBy): self
     {
-        $this->uploaded_by = $uploaded_by;
+        $this->uploadedBy = $uploadedBy;
 
         return $this;
     }

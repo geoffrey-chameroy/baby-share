@@ -10,7 +10,7 @@ class loginCest
         $I->amOnPage('/');
         $I->seeCurrentUrlEquals('/sign-in');
         $I->seeResponseCodeIs(HttpCode::OK);
-        $I->see('Hey, connecte toi pour voir mes photos !', 'p');
+        $I->see('Connecte toi pour voir les photos !', 'h4');
         $I->submitForm('form', ['_username' => 'user@test.fr', '_password' => 'user']);
         $I->seeCurrentUrlEquals('/');
         $I->seeResponseCodeIs(HttpCode::OK);
@@ -22,7 +22,7 @@ class loginCest
         $I->submitForm('form', ['_username' => 'user@test.fr', '_password' => 'mauvais']);
         $I->seeCurrentUrlEquals('/sign-in');
         $I->seeResponseCodeIs(HttpCode::OK);
-        $I->see('Invalid credentials', 'p');
+        $I->see('Identifiants invalides.', 'p');
     }
 
     public function tryLoginHelper(FunctionalTester $I)

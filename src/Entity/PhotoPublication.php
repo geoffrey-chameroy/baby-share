@@ -21,7 +21,7 @@ class PhotoPublication
     /**
      * @ORM\Column(type="datetime")
      */
-    private $published_at;
+    private $publishedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="publication")
@@ -40,12 +40,12 @@ class PhotoPublication
 
     public function getPublishedAt(): ?\DateTimeInterface
     {
-        return $this->published_at;
+        return $this->publishedAt;
     }
 
-    public function setPublishedAt(\DateTimeInterface $published_at): self
+    public function setPublishedAt(\DateTimeInterface $publishedAt): self
     {
-        $this->published_at = $published_at;
+        $this->publishedAt = $publishedAt;
 
         return $this;
     }
