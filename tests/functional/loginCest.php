@@ -43,10 +43,7 @@ class loginCest
     public function tryLogout(FunctionalTester $I)
     {
         $I->amLoggedAsUser();
-        $I->amOnPage('/');
-        $I->see('Déconnexion', 'a');
-
-        $I->click('Déconnexion', 'a');
+        $I->amOnPage('/sign-out');
         $I->seeCurrentUrlEquals('/sign-in');
 
         $I->amOnPage('/');
