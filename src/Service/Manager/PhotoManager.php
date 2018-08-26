@@ -30,10 +30,10 @@ class PhotoManager extends AbstractEntityManager
     }
 
     /**
-     * @param PhotoPublication $publication
+     * @param PhotoPublication|null $publication
      * @return Photo[]
      */
-    public function getByPublication(PhotoPublication $publication)
+    public function getByPublication(?PhotoPublication $publication)
     {
         return $this->getRepository()->findBy([
             'publication' => $publication,
