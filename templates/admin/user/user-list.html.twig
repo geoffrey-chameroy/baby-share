@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title 'Accueil' %}
+
+{% block content %}
+    <div class="container">
+        <section class="pt-4 pb-4">
+            <h2>Liste des utilisateurs</h2>
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Activé</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td nowrap>{{ user.id }}</td>
+                            <td nowrap>
+                                {% set icon = not user.enabled ? 'info' : 'danger' %}
+                                {% set text = not user.enabled ? 'oui' : 'non' %}
+                                <label class="badge badge-{{ icon }}">{{ text }}</label>
+                            </td>
+                            <td nowrap>{{ user.firstName ~ ' ' ~ user.lastName }}</td>
+                            <td nowrap>{{ user.email }}</td>
+                            <td nowrap>{{ user.phone }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+{% endblock %}
