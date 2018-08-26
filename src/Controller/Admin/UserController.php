@@ -38,10 +38,9 @@ class UserController extends Controller
      */
     public function enable(Request $request): Response
     {
-        $user = $this->userManager->get($request->request->get('id'));
-
         $token = $request->request->get('token');
         if ($this->isCsrfTokenValid('admin-user-enable', $token)) {
+            $user = $this->userManager->get($request->request->get('id'));
             $user->setEnabled(true);
             $this->userManager->save($user);
         }
@@ -56,10 +55,9 @@ class UserController extends Controller
      */
     public function disable(Request $request): Response
     {
-        $user = $this->userManager->get($request->request->get('id'));
-
         $token = $request->request->get('token');
         if ($this->isCsrfTokenValid('admin-user-disable', $token)) {
+            $user = $this->userManager->get($request->request->get('id'));
             $user->setEnabled(false);
             $this->userManager->save($user);
         }

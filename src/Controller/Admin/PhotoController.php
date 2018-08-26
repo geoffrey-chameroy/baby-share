@@ -49,4 +49,20 @@ class PhotoController extends Controller
 
         return $this->redirectToRoute('admin_photo_list');
     }
+
+    /**
+     * @Route("/remove", name="admin_photo_remove")
+     * @param Request $request
+     * @return Response
+     */
+    public function remove(Request $request): Response
+    {
+        $token = $request->request->get('token');
+        if ($this->isCsrfTokenValid('admin-photo-remove', $token)) {
+            $photo = $this->photoManager->get($request->request->get('id'));
+            $this->photoManager->remove($photo);
+        }
+
+        return $this->redirectToRoute('admin_photo_list');
+    }
 }

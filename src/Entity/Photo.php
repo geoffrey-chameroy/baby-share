@@ -47,6 +47,11 @@ class Photo
      */
     private $publication;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
+
     public function getId(): int
     {
         return $this->id;
@@ -120,6 +125,18 @@ class Photo
     public function setPublication(?PhotoPublication $publication): self
     {
         $this->publication = $publication;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }
