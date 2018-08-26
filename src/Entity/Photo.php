@@ -43,7 +43,7 @@ class Photo
     private $uploadedBy;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PhotoPublication", inversedBy="photos")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PhotoPublication", inversedBy="photos", cascade={"persist"}))
      */
     private $publication;
 

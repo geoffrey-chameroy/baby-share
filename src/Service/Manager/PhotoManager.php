@@ -31,4 +31,27 @@ class PhotoManager extends AbstractEntityManager
     {
         return $this->getRepository()->findBy(['publication' => $publication]);
     }
+
+    /**
+     * @return Photo[]
+     */
+    public function getNonPublished()
+    {
+        return $this->getRepository()->findBy(['publication' => null]);
+    }
+
+    /**
+     * @param PhotoPublication $publication
+     * @return Photo[]
+     */
+    public function publish(PhotoPublication $publication)
+    {
+        $photos = $this->getRepository()->findBy(['publication' => null]);
+        foreach ($photos as $photo) {
+            $photo->setPublication($publication);
+            $this->save($photo);
+        }
+
+        return $photos;
+    }
 }

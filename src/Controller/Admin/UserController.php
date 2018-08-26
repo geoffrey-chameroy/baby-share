@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/users")
+ */
 class UserController extends Controller
 {
     /** @var UserManager */
@@ -18,7 +21,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/users", name="admin_user_list")
+     * @Route("/", name="admin_user_list")
      * @return Response
      */
     public function list(): Response
@@ -29,7 +32,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/users/enable", name="admin_user_enable")
+     * @Route("/enable", name="admin_user_enable")
      * @param Request $request
      * @return Response
      */
@@ -47,7 +50,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/users/disable", name="admin_user_disable")
+     * @Route("/disable", name="admin_user_disable")
      * @param Request $request
      * @return Response
      */

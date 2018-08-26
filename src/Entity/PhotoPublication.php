@@ -30,6 +30,7 @@ class PhotoPublication
 
     public function __construct()
     {
+        $this->publishedAt = new \DateTime();
         $this->photos = new ArrayCollection();
     }
 

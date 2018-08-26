@@ -1,0 +1,35 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title 'Photos' %}
+
+{% block content %}
+    <div class="container">
+        <section class="pt-4 pb-4">
+            <h2>Liste des photos non publiées</h2>
+            <div class="row">
+                {% for photo in photos %}
+                    <div class="col-md-3 mt-4">
+                        <a href="{{ path('photo_view', {'id': photo.id}) }}" data-toggle="lightbox" data-title="{{ photo.label }}" data-footer="{{ photo.description }}" data-gallery="gallery">
+                            <img src="{{ path('photo_view', {'id': photo.id}) }}" class="img-fluid">
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="col">
+                        <p>Toutes les photos sont publiées.</p>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if photos %}
+                <div class="row mt-4">
+                    <div class="col text-center">
+                        <form class="inline" action="{{ url('admin_photo_publish') }}" method="post">
+                            <input type="hidden" name="token" value="{{ csrf_token('admin-photo-publish') }}" />
+                            <button class="btn btn-primary" type="submit">Publier toutes les photos</button>
+                        </form>
+
+                    </div>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}
