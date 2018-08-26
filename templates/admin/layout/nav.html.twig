@@ -1,9 +1,28 @@
-<nav class="pt-4 pb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <ul>
-            <li><a href="{{ path('home') }}">Retour au site</a></li>
-            <li><a href="{{ path('admin_user_list') }}">Liste des utilisateurs</a></li>
-            <li><a href="{{ path('sign_out') }}">Déconnexion</a></li>
-        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.attributes.get('_route') == 'admin_home' ? 'active' : '' }}" href="{{ path('admin_home') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.attributes.get('_route') == 'admin_user_list' ? 'active' : '' }}" href="{{ path('admin_user_list') }}">Utilisateurs</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('home') }}">Retour au site</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('sign_out') }}">
+                        <i class="fa fa-power-off"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
