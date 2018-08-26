@@ -11,24 +11,40 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Activé</th>
+                        <th class="text-center">Activé</th>
                         <th>Nom</th>
                         <th>Email</th>
                         <th>Téléphone</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for user in users %}
                         <tr>
                             <td nowrap>{{ user.id }}</td>
-                            <td nowrap>
-                                {% set icon = not user.enabled ? 'info' : 'danger' %}
-                                {% set text = not user.enabled ? 'oui' : 'non' %}
+                            <td class="text-center" nowrap>
+                                {% set icon = user.enabled ? 'primary' : 'danger' %}
+                                {% set text = user.enabled ? 'Activé' : 'Désactivé' %}
                                 <label class="badge badge-{{ icon }}">{{ text }}</label>
                             </td>
                             <td nowrap>{{ user.firstName ~ ' ' ~ user.lastName }}</td>
                             <td nowrap>{{ user.email }}</td>
                             <td nowrap>{{ user.phone }}</td>
+                            <td class="text-center">
+                                {% if user.enabled %}
+                                    <form class="inline" action="{{ url('admin_user_disable') }}" method="post">
+                                        <input type="hidden" name="token" value="{{ csrf_token('admin-user-disable') }}" />
+                                        <input type="hidden" name="id" value="{{ user.id }}" />
+                                        <button class="btn btn-danger btn-sm" type="submit">Désactiver</button>
+                                    </form>
+                                {% else %}
+                                    <form class="inline" action="{{ url('admin_user_enable') }}" method="post">
+                                        <input type="hidden" name="token" value="{{ csrf_token('admin-user-enable') }}" />
+                                        <input type="hidden" name="id" value="{{ user.id }}" />
+                                        <button class="btn btn-primary btn-sm" type="submit">Activer</button>
+                                    </form>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
