@@ -18,6 +18,12 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class PhotoManager extends AbstractEntityManager
 {
+    const WEB_WIDTH = 1600;
+    const WEB_HEIGHT = 1600;
+
+    const THUMB_WIDTH = 640;
+    const THUMB_HEIGHT = 480;
+
     public function __construct(EntityManagerInterface $em)
     {
          parent::__construct($em, Photo::class);

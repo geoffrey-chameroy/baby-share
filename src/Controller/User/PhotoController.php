@@ -27,9 +27,35 @@ class PhotoController Extends Controller
     public function view(PhotoManager $photoManager, int $id): BinaryFileResponse
     {
         $photo = $photoManager->get($id);
+        if (!$photo->getPublication()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        }
 
         $directory = $this->get('kernel')->getRootDir() . '/../uploads';
-        $file = $directory . '/' . $photo->getFileName();
+        $file = $directory . '/' . $photo->getWeb();
+
+        return new BinaryFileResponse($file);
+    }
+
+    /**
+     * @Route(
+     *     "/thumb/{id}.jpg", name="photo_view_thumb",
+     *     requirements={"id": "\d+"},
+     *     methods={"GET"}
+     * )
+     * @param PhotoManager $photoManager
+     * @param int $id
+     * @return BinaryFileResponse
+     */
+    public function viewThumb(PhotoManager $photoManager, int $id): BinaryFileResponse
+    {
+        $photo = $photoManager->get($id);
+        if (!$photo->getPublication()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        }
+
+        $directory = $this->get('kernel')->getRootDir() . '/../uploads';
+        $file = $directory . '/' . $photo->getThumb();
 
         return new BinaryFileResponse($file);
     }

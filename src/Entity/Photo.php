@@ -29,7 +29,7 @@ class Photo
     /**
      * @ORM\Column(type="string", length=40, unique=true)
      */
-    private $fileName;
+    private $original;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -51,6 +51,16 @@ class Photo
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $deletedAt;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $web;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $thumb;
 
     public function getId(): int
     {
@@ -81,14 +91,14 @@ class Photo
         return $this;
     }
 
-    public function getFileName(): ?string
+    public function getOriginal(): ?string
     {
-        return $this->fileName;
+        return $this->original;
     }
 
-    public function setFileName(string $fileName): self
+    public function setOriginal(string $original): self
     {
-        $this->fileName = $fileName;
+        $this->original = $original;
 
         return $this;
     }
@@ -137,6 +147,30 @@ class Photo
     public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getWeb(): ?string
+    {
+        return $this->web;
+    }
+
+    public function setWeb(string $web): self
+    {
+        $this->web = $web;
+
+        return $this;
+    }
+
+    public function getThumb(): ?string
+    {
+        return $this->thumb;
+    }
+
+    public function setThumb(string $thumb): self
+    {
+        $this->thumb = $thumb;
 
         return $this;
     }

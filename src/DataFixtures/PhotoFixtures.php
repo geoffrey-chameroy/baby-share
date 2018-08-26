@@ -37,7 +37,9 @@ class PhotoFixtures extends FixtureHelper implements DependentFixtureInterface
             $photo = (new Photo())
                 ->setLabel($this->faker->sentence)
                 ->setDescription($this->faker->text)
-                ->setFileName($this->getImage($directory, 640, 480, false, $i))
+                ->setOriginal($this->getImage($directory, 1920, 1080, false, $i))
+                ->setWeb($this->getImage($directory, 1920, 1080, false, $i))
+                ->setThumb($this->getImage($directory, 640, 480, false, $i))
                 ->setTakenAt(new \DateTime())
                 ->setPublication($publication)
                 ->setUploadedBy($uploadedBy);
