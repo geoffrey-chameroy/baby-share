@@ -4,6 +4,9 @@
             <li><a href="{{ path('home') }}">Accueil</a></li>
             <li><a href="{{ path('photo_list') }}">Photos</a></li>
             <li><a href="{{ path('photo_add') }}">Envoyer des photos</a></li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('admin_home') }}">Panel Admin</a></li>
+            {% endif %}
             <li><a href="{{ path('sign_out') }}">Déconnexion</a></li>
         </ul>
     </div>

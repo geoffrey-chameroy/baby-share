@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Security;
 
 use App\Form\UserType;
 use App\Service\Manager\UserManager;

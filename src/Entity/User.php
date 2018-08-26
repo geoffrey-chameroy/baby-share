@@ -86,10 +86,16 @@ class User implements AdvancedUserInterface
      */
     private $enabled;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $admin;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
         $this->enabled = false;
+        $this->admin = false;
     }
 
     public function getId(): int
@@ -135,7 +141,13 @@ class User implements AdvancedUserInterface
 
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = ['ROLE_USER'];
+
+        if ($this->isAdmin()) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
+        return $roles;
     }
 
     public function getSalt(): ?string
@@ -243,6 +255,18 @@ class User implements AdvancedUserInterface
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function isAdmin(): ?bool
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin(bool $admin): self
+    {
+        $this->admin = $admin;
 
         return $this;
     }

@@ -1,3 +1,14 @@
-controllers:
-    resource: ../../src/Controller/
+admin:
+    resource: ../../src/Controller/Admin
     type: annotation
+    prefix: /admin
+
+user:
+    resource: ../../src/Controller/User
+    type: annotation
+    prefix: /
+
+security:
+    resource: ../../src/Controller/Security
+    type: annotation
+    prefix: /
