@@ -13,7 +13,9 @@
     </head>
     <body>
         {% block empty_content %}
-            {% include 'user/layout/nav.html.twig' %}
+            {% block nav %}
+                {% include 'user/layout/nav.html.twig' %}
+            {% endblock %}
             {% block content '' %}
         {% endblock %}
 
