@@ -1,0 +1,5 @@
+{% if is_granted('ROLE_ADMIN') %}
+    {% include 'admin/layout/nav.html.twig' %}
+{% else %}
+    {% include 'user/layout/nav.html.twig' %}
+{% endif %}
