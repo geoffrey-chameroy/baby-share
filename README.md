@@ -13,11 +13,10 @@ $> cp docker-compose.override.yml.dist docker-compose.override.yml
 $> docker-compose up -d
 ```
 
-After that you'll have to install dependencies and database
+After that you'll have to install dependencies and database with fixtures
 ```bash
 $> docker-compose exec app composer install
-$> docker-compose exec app php bin/console doctrine:database:create
-$> docker-compose exec app php bin/console doctrine:schema:update -n 
+$> docker-compose exec app php bin/console app:fixtures:load
 ```
 
 Contributors

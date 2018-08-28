@@ -62,6 +62,32 @@ class PhotoController Extends Controller
 
     /**
      * @Route(
+     *     "/download/{id}.jpg", name="photo_download",
+     *     requirements={"id": "\d+"},
+     *     methods={"GET"}
+     * )
+     * @param PhotoManager $photoManager
+     * @param int $id
+     * @return BinaryFileResponse
+     */
+    public function download(PhotoManager $photoManager, int $id): BinaryFileResponse
+    {
+        $photo = $photoManager->get($id);
+        if (!$photo->getPublication()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        }
+
+        $directory = $this->get('kernel')->getRootDir() . '/../uploads';
+        $file = $directory . '/' . $photo->getOriginal();
+
+        return new BinaryFileResponse($file, 200, [
+            'Content-Disposition' => sprintf('attachment; filename="photo-%s.jpg"', $id),
+            'Content-Length' => filesize($file),
+        ]);
+    }
+
+    /**
+     * @Route(
      *     "/", name="photo_list",
      *     methods={"GET"}
      * )
