@@ -5,43 +5,81 @@
 {% block content %}
     <div class="container">
         <section class="pt-4 pb-4">
-            <h2>Liste des photos non publiées</h2>
-            <div class="row">
-                {% for photo in photos %}
-                    <div class="col-md-3 mt-4">
-                        <div class="row">
-                            <div class="col">
-                                <a href="{{ path('photo_view_thumb', {'id': photo.id}) }}" data-toggle="lightbox" data-title="{{ photo.label }}" data-footer="{{ photo.description }}" data-gallery="gallery">
-                                    <img src="{{ path('photo_view', {'id': photo.id}) }}" class="img-fluid">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <form class="inline" action="{{ url('admin_photo_remove') }}" method="post">
-                                    <input type="hidden" name="token" value="{{ csrf_token('admin-photo-remove') }}" />
-                                    <input type="hidden" name="id" value="{{ photo.id }}" />
-                                    <button class="btn btn-danger btn-block" type="submit">Supprimer</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col">
-                        <p>Toutes les photos sont publiées.</p>
-                    </div>
-                {% endfor %}
-            </div>
-            {% if photos %}
-                <div class="row mt-4">
-                    <div class="col text-center">
-                        <form class="inline" action="{{ url('admin_photo_publish') }}" method="post">
-                            <input type="hidden" name="token" value="{{ csrf_token('admin-photo-publish') }}" />
-                            <button class="btn btn-primary" type="submit">Publier toutes les photos</button>
-                        </form>
-                    </div>
+            {% if unPublishedPhotos|length > 0 %}
+                <div class="alert alert-primary" role="alert">
+                    Hey, il y a <a href="{{ path('admin_photo_list_un_published') }}" class="alert-link">{{ unPublishedPhotos|length }} photos non publiées</a> !
                 </div>
             {% endif %}
+        </section>
+        <section class="pt-4 pb-4">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Photo</th>
+                            <th>Etat / Titre / Description</th>
+                            <th class="text-center">Prise le</th>
+                            <th class="text-center">Prise par</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for photo in photos %}
+                            <tr>
+                                <td>{{ photo.id }}</td>
+                                <td><img src="{{ path('photo_view_thumb', {'id': photo.id}) }}" class="img-fluid"></td>
+                                <td>
+                                    {% if photo.deletedAt %}
+                                        <label class="badge badge-danger">supprimé</label><br>
+                                    {% elseif photo.publication %}
+                                        <label class="badge badge-primary">publié</label><br>
+                                    {% else %}
+                                        <label class="badge badge-warning">non publié</label><br>
+                                    {% endif %}
+                                    <strong>{{ photo.label }}</strong><br>
+                                    <span>{{ photo.description }}</span>
+                                </td>
+                                <td nowrap class="text-center">{{ photo.takenAt ? photo.takenAt|date('d.m.Y') : 'Non renseigné' }}</td>
+                                <td nowrap class="text-center">{{ photo.uploadedBy.name }}</td>
+                                <td nowrap class="text-right">
+                                    {% if not photo.deletedAt %}
+                                        <a href="{{ path('admin_photo_edit', {'id': photo.id}) }}" class="btn btn-primary btn-sm">Editer</a>
+                                        <form class="d-inline" action="{{ url('admin_photo_remove') }}" method="post">
+                                            <input type="hidden" name="token" value="{{ csrf_token('admin-photo-remove') }}" />
+                                            <input type="hidden" name="id" value="{{ photo.id }}" />
+                                            <input type="hidden" name="redirect" value="{{ path('admin_photo_list', {'page': page}) }}" />
+                                            <button class="btn btn-danger btn-sm ml-2" type="submit">Supprimer</button>
+                                        </form>
+                                    {% else %}
+                                        <form class="d-inline" action="{{ url('admin_photo_restore') }}" method="post">
+                                            <input type="hidden" name="token" value="{{ csrf_token('admin-photo-restore') }}" />
+                                            <input type="hidden" name="id" value="{{ photo.id }}" />
+                                            <input type="hidden" name="redirect" value="{{ path('admin_photo_list', {'page': page}) }}" />
+                                            <button class="btn btn-secondary btn-sm" type="submit">Restaurer</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('admin_photo_list', {'page': 1}) }}" tabindex="-1">Previous</a>
+                    </li>
+                    {% for i in 1..nbPage %}
+                        <li class="page-item {% if i == page %}active{% endif %}">
+                            <a class="page-link" href="{{ path('admin_photo_list', {'page': i}) }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="page-item {% if page >= nbPage %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('admin_photo_list', {'page': page + 1}) }}">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </section>
     </div>
 {% endblock %}

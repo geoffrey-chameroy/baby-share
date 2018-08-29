@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method Photo|null      get(int $id, bool $check = true)
  * @method Photo[]         getList()
  * @method Photo           save(Photo $photo)
- * @method void            remove(Photo $photo)
  * @method void            checkEntity(?Photo $photo)
  */
 class PhotoManager extends AbstractEntityManager
@@ -23,6 +22,8 @@ class PhotoManager extends AbstractEntityManager
 
     const THUMB_WIDTH = 640;
     const THUMB_HEIGHT = 480;
+
+    const NB_PER_PAGE = 10;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -44,7 +45,7 @@ class PhotoManager extends AbstractEntityManager
     /**
      * @return Photo[]
      */
-    public function getNonPublished()
+    public function getUnPublished()
     {
         return $this->getRepository()->findBy([
             'publication' => null,
@@ -69,5 +70,46 @@ class PhotoManager extends AbstractEntityManager
         }
 
         return $photos;
+    }
+
+    /**
+     * @param int $page
+     * @return Photo[]
+     */
+    public function getListPerPage(int $page = 1)
+    {
+        $page = $page >= 1 ? $page : 1;
+        $offset = ($page - 1) * self::NB_PER_PAGE;
+
+        return $this->getRepository()->findBy(
+            [],
+            ['id' => 'desc'],
+            self::NB_PER_PAGE,
+            $offset
+        );
+    }
+
+    public function getNbPage(): int
+    {
+        return ceil(count($this->getRepository()->findAll()) / self::NB_PER_PAGE);
+    }
+
+    /**
+     * @param Photo $photo
+     */
+    public function remove($photo): void
+    {
+        $photo->setDeletedAt(new \DateTime());
+        $photo->setPublication(null);
+        $this->save($photo);
+    }
+
+    public function restore(Photo $photo): Photo
+    {
+        $photo->setDeletedAt(null);
+        $photo->setPublication(null);
+        $this->save($photo);
+
+        return $photo;
     }
 }
