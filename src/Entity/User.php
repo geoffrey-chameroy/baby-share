@@ -220,6 +220,11 @@ class User implements AdvancedUserInterface
         return $this;
     }
 
+    public function getName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
     public function getPhone(): ?string
     {
         return $this->phone;

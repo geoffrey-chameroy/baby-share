@@ -62,6 +62,11 @@ class Photo
      */
     private $thumb;
 
+    public function __construct()
+    {
+        $this->takenAt = new \DateTime();
+    }
+
     public function getId(): int
     {
         return $this->id;

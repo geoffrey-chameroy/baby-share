@@ -13,7 +13,7 @@
                     <a class="nav-link {{ app.request.attributes.get('_route') == 'admin_user_list' ? 'active' : '' }}" href="{{ path('admin_user_list') }}">Utilisateurs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ app.request.attributes.get('_route') == 'admin_photo_list' ? 'active' : '' }}" href="{{ path('admin_photo_list') }}">Photos</a>
+                    <a class="nav-link {{ app.request.attributes.get('_route') == 'admin_photo_list' ? 'active' : '' }}" href="{{ path('admin_photo_list', {'page': 1}) }}">Photos</a>
                 </li>
             </ul>
             <ul class="navbar-nav">

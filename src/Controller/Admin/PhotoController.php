@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Form\PhotoType;
 use App\Service\Manager\PhotoManager;
 use App\Service\Manager\PhotoPublicationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,13 +24,57 @@ class PhotoController extends Controller
     }
 
     /**
-     * @Route("/", name="admin_photo_list")
+     * @Route("/page-{page<\d+>}", name="admin_photo_list")
      * @return Response
      */
-    public function list(): Response
+    public function listPage(int $page): Response
     {
+        $nbPage = $this->photoManager->getNbPage();
         return $this->render('admin/photo/photo-list.html.twig', [
-            'photos' => $this->photoManager->getNonPublished(),
+            'unPublishedPhotos' => $this->photoManager->getUnPublished(),
+            'photos' => $this->photoManager->getListPerPage($page),
+            'page' => $page,
+            'nbPage' => $nbPage,
+        ]);
+    }
+
+    /**
+     * @Route("/un-published", name="admin_photo_list_un_published")
+     * @return Response
+     */
+    public function listUnPublished(): Response
+    {
+        return $this->render('admin/photo/photo-list-un-published.html.twig', [
+            'unPublishedPhotos' => $this->photoManager->getUnPublished(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id<\d+>}/edit", name="admin_photo_edit")
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
+    public function edit(Request $request, int $id): Response
+    {
+        $photo = $this->photoManager->get($id);
+        $form = $this->createForm(PhotoType::class, $photo);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->photoManager->save($photo);
+
+            $url = $request->request->get('redirect') ?
+                $request->request->get('redirect') :
+                $this->generateUrl('admin_photo_list', ['page' => 1]);
+
+            return $this->redirect($url);
+        }
+
+        return $this->render(
+            'admin/photo/edit.html.twig', [
+            'form' => $form->createView(),
+            'photo' => $photo,
         ]);
     }
 
@@ -63,6 +108,30 @@ class PhotoController extends Controller
             $this->photoManager->remove($photo);
         }
 
-        return $this->redirectToRoute('admin_photo_list');
+        $url = $request->request->get('redirect') ?
+            $request->request->get('redirect') :
+            $this->generateUrl('admin_photo_list', ['page' => 1]);
+
+        return $this->redirect($url);
+    }
+
+    /**
+     * @Route("/restore", name="admin_photo_restore")
+     * @param Request $request
+     * @return Response
+     */
+    public function restore(Request $request): Response
+    {
+        $token = $request->request->get('token');
+        if ($this->isCsrfTokenValid('admin-photo-restore', $token)) {
+            $photo = $this->photoManager->get($request->request->get('id'));
+            $this->photoManager->restore($photo);
+        }
+
+        $url = $request->request->get('redirect') ?
+            $request->request->get('redirect') :
+            $this->generateUrl('admin_photo_list', ['page' => 1]);
+
+        return $this->redirect($url);
     }
 }
