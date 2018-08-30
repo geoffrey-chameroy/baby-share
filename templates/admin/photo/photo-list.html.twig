@@ -17,7 +17,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Photo</th>
+                            <th width="160">Photo</th>
                             <th>Etat / Titre / Description</th>
                             <th class="text-center">Prise le</th>
                             <th class="text-center">Prise par</th>
@@ -38,13 +38,13 @@
                                         <label class="badge badge-warning">non publié</label><br>
                                     {% endif %}
                                     <strong>{{ photo.label }}</strong><br>
-                                    <span>{{ photo.description }}</span>
+                                    <small>{{ photo.description }}</small>
                                 </td>
                                 <td nowrap class="text-center">{{ photo.takenAt ? photo.takenAt|date('d.m.Y') : 'Non renseigné' }}</td>
                                 <td nowrap class="text-center">{{ photo.uploadedBy.name }}</td>
                                 <td nowrap class="text-right">
                                     {% if not photo.deletedAt %}
-                                        <a href="{{ path('admin_photo_edit', {'id': photo.id}) }}" class="btn btn-primary btn-sm">Editer</a>
+                                        <a href="{{ path('admin_photo_edit', {'page': page, 'id': photo.id}) }}" class="btn btn-primary btn-sm">Editer</a>
                                         <form class="d-inline" action="{{ url('admin_photo_remove') }}" method="post">
                                             <input type="hidden" name="token" value="{{ csrf_token('admin-photo-remove') }}" />
                                             <input type="hidden" name="id" value="{{ photo.id }}" />

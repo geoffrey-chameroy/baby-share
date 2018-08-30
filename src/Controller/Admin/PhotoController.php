@@ -50,12 +50,13 @@ class PhotoController extends Controller
     }
 
     /**
-     * @Route("/{id<\d+>}/edit", name="admin_photo_edit")
+     * @Route("/page-{page<\d+>}/{id<\d+>}/edit", name="admin_photo_edit")
      * @param Request $request
+     * @param int $page
      * @param int $id
      * @return Response
      */
-    public function edit(Request $request, int $id): Response
+    public function edit(Request $request, int $page, int $id): Response
     {
         $photo = $this->photoManager->get($id);
         $form = $this->createForm(PhotoType::class, $photo);
@@ -64,11 +65,7 @@ class PhotoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->photoManager->save($photo);
 
-            $url = $request->request->get('redirect') ?
-                $request->request->get('redirect') :
-                $this->generateUrl('admin_photo_list', ['page' => 1]);
-
-            return $this->redirect($url);
+            return $this->redirectToRoute('admin_photo_list', ['page' => $page]);
         }
 
         return $this->render(
@@ -92,7 +89,7 @@ class PhotoController extends Controller
             $this->photoManager->publish($publication);
         }
 
-        return $this->redirectToRoute('admin_photo_list');
+        return $this->redirectToRoute('admin_photo_list', ['page' => 1]);
     }
 
     /**
