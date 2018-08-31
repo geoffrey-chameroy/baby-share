@@ -1,14 +1,21 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title 'Photos non publiées' %}
+{% block title 'Admin - Photos non publiées' %}
+
+{% block breadcrumb %}
+    <header class="content__title">
+        <h1>Photos non publiées</h1>
+        <small>Supprime les photos non correct avant de les publier !</small>
+    </header>
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <section class="pt-4 pb-4">
-            <h2>Liste des photos non publiées</h2>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Liste des photos non publiées</h4>
             <div class="row">
                 {% for photo in unPublishedPhotos %}
-                    <div class="col-md-3 mt-4">
+                    <div class="col-md-3 mb-4">
                         <div class="row">
                             <div class="col">
                                 <a href="{{ path('photo_view_thumb', {'id': photo.id}) }}" data-toggle="lightbox" data-title="{{ photo.label }}" data-footer="{{ photo.description }}" data-gallery="gallery">
@@ -43,6 +50,6 @@
                     </div>
                 </div>
             {% endif %}
-        </section>
+        </div>
     </div>
 {% endblock %}

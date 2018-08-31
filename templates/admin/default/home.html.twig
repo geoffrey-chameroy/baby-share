@@ -1,11 +1,31 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title 'Accueil' %}
+{% block title 'Admin - Dashboard' %}
+
+{% block breadcrumb %}
+    <header class="content__title">
+        <h1>Dashboard</h1>
+        <small>Bienvenue sur la panel admin de Zen Unicorn !</small>
+    </header>
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <section class="pt-4 pb-4">
-            <h2>Panel admin</h2>
-        </section>
+    <div class="row quick-stats">
+        <div class="col-sm-6 col-md-3">
+            <div class="quick-stats__item">
+                <div class="quick-stats__info">
+                    <h2>165</h2>
+                    <small>Photos publiées</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="quick-stats__item">
+                <div class="quick-stats__info">
+                    <h2>7</h2>
+                    <small>Utilisateurs inscris</small>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

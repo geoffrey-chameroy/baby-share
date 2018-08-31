@@ -1,11 +1,19 @@
 {% extends 'admin/base.html.twig' %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-{% block title 'Photos' %}
+{% block title 'Admin - Edition de photos' %}
+
+{% block breadcrumb %}
+    <header class="content__title">
+        <h1>Edition de photos</h1>
+        <small>Les modifications seront en ligne dès l'enregistrement.</small>
+    </header>
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <section class="pt-4 pb-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Informations de la photo</h4>
             <div class="row">
                 <div class="col-md-6">
                     <img class="img-fluid" src="{{ path('photo_view', {'id': photo.id}) }}" />
@@ -19,6 +27,6 @@
                     {{ form_end(form) }}
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 {% endblock %}

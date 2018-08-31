@@ -17,15 +17,20 @@ class PhotoType extends AbstractType
         $builder
             ->add('label', TextType::class, [
                 'required' => false,
+                'label' => 'Titre',
                 'attr' => ['placeholder' => 'Titre'],
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
+                'label' => 'Description',
                 'attr' => ['placeholder' => 'Description'],
             ])
             ->add('takenAt', DateType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => 'Prise le'],
+                'label' => 'Photo prise le',
+                'widget' => 'single_text',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker'],
             ])
         ;
     }
