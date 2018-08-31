@@ -25,11 +25,13 @@ class PhotoController extends Controller
 
     /**
      * @Route("/page-{page<\d+>}", name="admin_photo_list")
+     * @param int $page
      * @return Response
      */
     public function listPage(int $page): Response
     {
         $nbPage = $this->photoManager->getNbPage();
+
         return $this->render('admin/photo/photo-list.html.twig', [
             'unPublishedPhotos' => $this->photoManager->getUnPublished(),
             'photos' => $this->photoManager->getListPerPage($page),
