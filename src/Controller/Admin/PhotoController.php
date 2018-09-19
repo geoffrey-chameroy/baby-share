@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Form\PhotoType;
 use App\Service\Manager\PhotoManager;
 use App\Service\Manager\PhotoPublicationManager;
+use App\Service\Manager\UserManager;
+use App\Service\Provider\EmailProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,14 +83,26 @@ class PhotoController extends Controller
      * @Route("/publish", name="admin_photo_publish")
      * @param Request $request
      * @param PhotoPublicationManager $publicationManager
+     * @param UserManager $userManager
+     * @param EmailProvider $emailProvider
      * @return Response
      */
-    public function publish(Request $request, PhotoPublicationManager $publicationManager): Response
+    public function publish(
+        Request $request,
+        PhotoPublicationManager $publicationManager,
+        UserManager $userManager,
+        EmailProvider $emailProvider
+    ): Response
     {
         $token = $request->request->get('token');
         if ($this->isCsrfTokenValid('admin-photo-publish', $token)) {
             $publication = $publicationManager->getNew();
             $this->photoManager->publish($publication);
+
+            $users = $userManager->getList();
+            $subject = 'Nouvelles photos';
+            $content = $this->renderView('email/new-photos.html.twig');
+            $emailProvider->sendEmail($users, $subject, $content);
         }
 
         return $this->redirectToRoute('admin_photo_list', ['page' => 1]);
