@@ -6,7 +6,7 @@ use App\Entity\User;
 
 class EmailProvider
 {
-    const FROM_EMAIL = 'no-reply@zen-uniorn.fr';
+    const FROM_EMAIL = 'no-reply@zen-unicorn.fr';
     const FROM_NAME = 'Zen Unicorn';
 
     /** @var \Swift_Mailer */
@@ -18,19 +18,21 @@ class EmailProvider
     }
 
     /**
-     * @param User[] $users
+     * @param User $user
      * @param string $subject
      * @param string $content
      */
-    public function sendEmail($users, string $subject, string $content)
+    public function sendEmail(User $user, string $subject, string $content)
     {
-        foreach ($users as $user) {
-            $message = (new \Swift_Message($subject))
-                ->setFrom(self::FROM_EMAIL, self::FROM_NAME)
-                ->setTo($user->getEmail())
-                ->setBody($content, 'text/html')
-            ;
-            $this->mailer->send($message);
+        if (!$user->isNewsletter() || !$user->isEnabled()) {
+            return;
         }
+
+        $message = (new \Swift_Message($subject))
+            ->setFrom(self::FROM_EMAIL, self::FROM_NAME)
+            ->setTo($user->getEmail())
+            ->setBody($content, 'text/html')
+        ;
+        $this->mailer->send($message);
     }
 }

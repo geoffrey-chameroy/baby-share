@@ -82,12 +82,17 @@ class User implements AdvancedUserInterface
     private $phone;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $enabled;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $newsletter;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $admin;
 
@@ -95,6 +100,7 @@ class User implements AdvancedUserInterface
     {
         $this->photos = new ArrayCollection();
         $this->enabled = false;
+        $this->newsletter = false;
         $this->admin = false;
     }
 
@@ -260,6 +266,18 @@ class User implements AdvancedUserInterface
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function isNewsletter(): bool
+    {
+        return $this->newsletter;
+    }
+
+    public function setNewsletter(bool $newsletter): self
+    {
+        $this->newsletter = $newsletter;
 
         return $this;
     }

@@ -99,10 +99,12 @@ class PhotoController extends Controller
             $publication = $publicationManager->getNew();
             $this->photoManager->publish($publication);
 
-            $users = $userManager->getList();
+            $users = $userManager->getListNewsletter();
             $subject = 'Nouvelles photos';
-            $content = $this->renderView('email/new-photos.html.twig');
-            $emailProvider->sendEmail($users, $subject, $content);
+            foreach ($users as $user) {
+                $content = $this->renderView('email/new-photos.html.twig', ['email' => $user->getEmail()]);
+                $emailProvider->sendEmail($user, $subject, $content);
+            }
         }
 
         return $this->redirectToRoute('admin_photo_list', ['page' => 1]);

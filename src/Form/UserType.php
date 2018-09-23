@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -38,6 +39,10 @@ class UserType extends AbstractType
                 'second_options'  => ['attr' => ['placeholder' => 'Confirmation']],
                 'invalid_message' => 'La confirmation ne correspond pas.'
             ))
+            ->add('newsletter', CheckboxType::class, [
+                'required' => false,
+                'label' => 'J\'accepte de recevoir des emails de notifications.',
+            ])
         ;
     }
 

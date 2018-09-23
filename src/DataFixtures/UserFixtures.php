@@ -36,6 +36,7 @@ class UserFixtures extends Fixture
             ->setLastName('Smith')
             ->setPhone('0123456789')
             ->setEnabled(true)
+            ->setNewsletter(true)
             ->setAdmin(true);
 
         $password = $this->encoder
@@ -56,7 +57,8 @@ class UserFixtures extends Fixture
             ->setFirstName('John')
             ->setLastName('Smith')
             ->setPhone('0123456789')
-            ->setEnabled(true);
+            ->setEnabled(true)
+            ->setNewsletter(true);
 
         $password = $this->encoder
             ->encodePassword($user, $user->getPlainPassword());
