@@ -34,6 +34,17 @@ class UserManager extends AbstractEntityManager
         ]);
     }
 
+    /**
+     * @return User[]
+     */
+    public function getListAdmin()
+    {
+        return $this->getRepository()->findBy([
+            'admin' => 1,
+            'enabled' => 1
+        ]);
+    }
+
     public function getByEmail(string $email): ?User
     {
         return $this->getRepository()->findOneBy([
