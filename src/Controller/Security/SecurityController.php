@@ -4,6 +4,7 @@ namespace App\Controller\Security;
 
 use App\Form\UserType;
 use App\Service\Manager\UserManager;
+use App\Service\Provider\EmailProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +21,15 @@ class SecurityController extends Controller
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param UserManager $userManager
      * @param AuthorizationCheckerInterface $authChecker
+     * @param EmailProvider $emailProvider
      * @return Response
      */
     public function register(
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
         UserManager $userManager,
-        AuthorizationCheckerInterface $authChecker
+        AuthorizationCheckerInterface $authChecker,
+        EmailProvider $emailProvider
     ): Response
     {
         if ($authChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -41,6 +44,13 @@ class SecurityController extends Controller
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
             $userManager->save($user);
+
+            $users = $userManager->getListAdmin();
+            $subject = 'Nouvel utilisateur';
+            foreach ($users as $user) {
+                $content = $this->renderView('email/admin/new-user.html.twig');
+                $emailProvider->sendEmail($user, $subject, $content);
+            }
 
             return $this->render(
                 'security/register-success.html.twig', [

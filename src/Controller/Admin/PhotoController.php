@@ -102,7 +102,7 @@ class PhotoController extends Controller
             $users = $userManager->getListNewsletter();
             $subject = 'Nouvelles photos';
             foreach ($users as $user) {
-                $content = $this->renderView('email/new-photos.html.twig', ['email' => $user->getEmail()]);
+                $content = $this->renderView('email/user/new-photos.html.twig', ['email' => $user->getEmail()]);
                 $emailProvider->sendEmail($user, $subject, $content);
             }
         }
