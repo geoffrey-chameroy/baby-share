@@ -16,7 +16,7 @@
         Dropzone.options.addPhoto = {
             chunking: true,
             forceChunking: true,
-            chunkSize: 2000000, // 2Mo
+            chunkSize: 200000, // 200Ko
             accept: function(file, done) {
                 if (file.type !== "image/jpeg") {
                     done("Seules les images au format jpeg sont acceptées.");
